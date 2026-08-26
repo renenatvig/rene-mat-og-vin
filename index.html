@@ -202,6 +202,23 @@
   }
   .btn.small{padding:0.4rem 0.75rem; font-size:0.82rem;}
   .btn.in-cart{background:var(--accent-2); border-color:var(--accent-2); color:#fff;}
+  .cart-badge{
+    position:absolute;
+    top:-0.4rem;
+    right:-0.4rem;
+    min-width:1.3rem;
+    height:1.3rem;
+    padding:0 0.3rem;
+    border-radius:999px;
+    background:var(--accent-2);
+    color:#fff;
+    font-size:0.72rem;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:1;
+  }
 
   .grid{
     display:grid;
@@ -335,18 +352,33 @@
 
   .card{position:relative;}
 
-  .shop-recipe{margin-bottom:1.1rem;}
-  .shop-recipe h4{
-    font-family:"IBM Plex Mono",monospace;
-    font-size:0.78rem;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    color:var(--accent-2);
-    margin:0 0 0.4rem;
-  }
-  .shop-recipe ul{margin:0; padding-left:1.15rem;}
-  .shop-recipe li{margin-bottom:0.2rem;}
   .shop-empty{color:var(--ink-muted); font-size:0.9rem;}
+  .shop-flat-list{list-style:none; margin:0; padding:0;}
+  .shop-flat-list li{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.6rem;
+    padding:0.5rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  .shop-flat-list li:last-child{border-bottom:none;}
+  .shop-remove-btn{
+    flex-shrink:0;
+    width:1.6rem;
+    height:1.6rem;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--ink-muted);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:0.8rem;
+    line-height:1;
+  }
+  .shop-remove-btn:hover{border-color:var(--danger); color:var(--danger);}
 
   .card.pending{
     border-style:dashed;
@@ -609,11 +641,18 @@
     font-size:0.9em;
   }
   .detail-section p{margin:0; white-space:pre-wrap;}
+  .detail-top-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.8rem;
+    flex-wrap:wrap;
+    margin-bottom:1.1rem;
+  }
   .guest-row{
     display:flex;
     align-items:center;
     gap:0.8rem;
-    margin-bottom:1.1rem;
     flex-wrap:wrap;
   }
   .guest-stepper{
@@ -713,7 +752,7 @@
 
 <div class="fab-stack">
   <button type="button" class="btn ghost fab-secondary" id="urlBtn">🔗 Fra URL</button>
-  <button type="button" class="btn ghost fab-secondary" id="shopBtn">🛒 Handleliste</button>
+  <button type="button" class="btn ghost fab-secondary" id="shopBtn" style="position:relative;">🛒 Handleliste<span class="cart-badge" id="cartBadge" style="display:none;"></span></button>
   <button type="button" class="btn fab" id="addBtn">+ Ny oppskrift</button>
 </div>
 
@@ -869,14 +908,17 @@
       <button class="modal-close" id="detailClose" aria-label="Lukk">✕</button>
     </div>
     <img class="detail-image" id="d-image" style="display:none;" alt="">
-    <div class="guest-row" id="guestRow" style="display:none;">
-      <span class="filter-group-label" style="margin:0;">Antall gjester</span>
-      <div class="guest-stepper">
-        <button type="button" class="guest-btn" id="guestMinus" aria-label="Færre gjester">−</button>
-        <span id="guestCount" class="mono"></span>
-        <button type="button" class="guest-btn" id="guestPlus" aria-label="Flere gjester">+</button>
+    <div class="detail-top-row" id="detailTopRow">
+      <div class="guest-row" id="guestRow" style="display:none;">
+        <span class="filter-group-label" style="margin:0;">Antall gjester</span>
+        <div class="guest-stepper">
+          <button type="button" class="guest-btn" id="guestMinus" aria-label="Færre gjester">−</button>
+          <span id="guestCount" class="mono"></span>
+          <button type="button" class="guest-btn" id="guestPlus" aria-label="Flere gjester">+</button>
+        </div>
+        <button type="button" class="btn ghost small" id="guestReset" style="display:none;">Tilbakestill</button>
       </div>
-      <button type="button" class="btn ghost small" id="guestReset" style="display:none;">Tilbakestill</button>
+      <button type="button" class="btn small" id="detailAddToCartBtn">🛒 Legg til i handleliste</button>
     </div>
     <div class="detail-meta">
       <span id="d-servings"></span>
@@ -909,7 +951,6 @@
     <div class="form-actions">
       <button type="button" class="btn danger small" id="detailDeleteBtn">Slett</button>
       <div style="margin-left:auto; display:flex; gap:0.6rem; flex-wrap:wrap;">
-        <button type="button" class="btn ghost small" id="detailAddToCartBtn">🛒 Legg til i handleliste</button>
         <button type="button" class="btn ghost small" id="detailShareBtn">📤 Del</button>
         <button type="button" class="btn ghost small" id="detailCloseBtn">Lukk</button>
       </div>
@@ -981,6 +1022,7 @@
   var addBtn = document.getElementById('addBtn');
   var urlBtn = document.getElementById('urlBtn');
   var shopBtn = document.getElementById('shopBtn');
+  var cartBadge = document.getElementById('cartBadge');
   var detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
   var shoppingOverlay = document.getElementById('shoppingOverlay');
   var shoppingList = document.getElementById('shoppingList');
@@ -1461,6 +1503,8 @@
     }).map(function(line){ return scaleIngredientLine(line, factor).trim(); });
   }
 
+  var removedLines = new Set();
+
   function addToCart(r){
     cart[r.id] = { title: r.title, guests: detailCurrentGuests || null, lines: scaledCartLines(r) };
   }
@@ -1478,6 +1522,13 @@
     detailAddToCartBtn.classList.toggle('in-cart', inCart);
   }
 
+  function renderCartBadge(){
+    if (!cartBadge) return;
+    var n = cartRecipeIds().length;
+    cartBadge.textContent = n;
+    cartBadge.style.display = n > 0 ? 'flex' : 'none';
+  }
+
   detailAddToCartBtn.addEventListener('click', function(){
     var r = currentDetailRecipe();
     if (!r) return;
@@ -1489,6 +1540,7 @@
       toast('Lagt til i handlelisten');
     }
     renderCartButton();
+    renderCartBadge();
   });
 
   function cartRecipeIds(){ return Object.keys(cart); }
@@ -1505,32 +1557,42 @@
         else { seen[key] = { text: trimmed, count: 1 }; order.push(key); }
       });
     });
-    return order.map(function(key){
+    return order.filter(function(key){ return !removedLines.has(key); }).map(function(key){
       var item = seen[key];
-      return item.text + (item.count > 1 ? ' ×' + item.count : '');
+      return { key: key, text: item.text + (item.count > 1 ? ' ×' + item.count : '') };
     });
   }
 
   function currentShoppingText(){
-    return buildShoppingLines().join('\n');
+    return buildShoppingLines().map(function(i){ return i.text; }).join('\n');
   }
 
+  function renderShoppingList(){
+    var items = buildShoppingLines();
+    if (!items.length){
+      shoppingList.innerHTML = '<p class="shop-empty">Ingen varer igjen på listen.</p>';
+      return;
+    }
+    shoppingList.innerHTML = '<ul class="shop-flat-list">' + items.map(function(i){
+      return '<li><span>' + escapeHtml(i.text) + '</span><button type="button" class="shop-remove-btn" data-key="' + escapeHtml(i.key) + '" aria-label="Fjern fra listen">✕</button></li>';
+    }).join('') + '</ul>';
+  }
+
+  shoppingList.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.shop-remove-btn') : null;
+    if (!btn) return;
+    removedLines.add(btn.getAttribute('data-key'));
+    renderShoppingList();
+  });
+
   function openShoppingList(){
-    var ids = cartRecipeIds();
-    if (!ids.length){
+    if (!cartRecipeIds().length){
       toast('Handlelisten er tom. Åpne en oppskrift og legg den til.');
       shoppingList.innerHTML = '<p class="shop-empty">Ingen oppskrifter lagt til ennå.</p>';
       shoppingOverlay.classList.add('show');
       return;
     }
-    var html = ids.map(function(id){
-      var entry = cart[id];
-      if (!entry.lines.length) return '';
-      return '<div class="shop-recipe"><h4>' + escapeHtml(entry.title) + (entry.guests ? ' (' + entry.guests + ' pers.)' : '') + '</h4><ul>' +
-        entry.lines.map(function(i){ return '<li>' + escapeHtml(i) + '</li>'; }).join('') +
-        '</ul></div>';
-    }).join('');
-    shoppingList.innerHTML = html || '<p class="shop-empty">Ingen ingredienser å vise.</p>';
+    renderShoppingList();
     shoppingOverlay.classList.add('show');
   }
 
@@ -1837,6 +1899,7 @@
     renderChips();
     renderWineChips();
     renderGrid();
+    renderCartBadge();
     if (window.claude && typeof window.claude.use === 'function'){
       window.claude.use('artifact').then(function(api){
         artifactAPI = api;
