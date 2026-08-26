@@ -477,6 +477,21 @@
     font-family:"IBM Plex Mono",monospace;
     letter-spacing:0.02em;
   }
+  .gluten-alt-badge{
+    font-size:0.72rem;
+    line-height:1;
+    color:#b8730a;
+    background:transparent;
+    border:1px solid #b8730a;
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    gap:0.3rem;
+    padding:0.24rem 0.55rem;
+    border-radius:999px;
+    font-family:"IBM Plex Mono",monospace;
+    letter-spacing:0.02em;
+  }
   .gluten-note{
     font-size:0.82rem;
     color:var(--ink-muted);
@@ -2059,6 +2074,8 @@
   ];
   var activeWineFilter = 'Alle';
   var activeGlutenOnly = false;
+  var activeGlutenAltOnly = false;
+  function hasGlutenAlternative(r){ return !r.glutenfri && !!r.glutenNote; }
   var sortMode = 'newest';
   var cart = {};
   var activeCategory = "Alle";
@@ -2299,16 +2316,27 @@
 
   function renderOtherChips(){
     otherChipsEl.innerHTML = '';
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'chip' + (activeGlutenOnly ? ' active' : '');
-    b.textContent = '🌾✕ Kun glutenfrie';
-    b.addEventListener('click', function(){
+    var b1 = document.createElement('button');
+    b1.type = 'button';
+    b1.className = 'chip' + (activeGlutenOnly ? ' active' : '');
+    b1.textContent = '🌾✕ Kun glutenfrie';
+    b1.addEventListener('click', function(){
       activeGlutenOnly = !activeGlutenOnly;
       renderOtherChips();
       renderGrid();
     });
-    otherChipsEl.appendChild(b);
+    otherChipsEl.appendChild(b1);
+
+    var b2 = document.createElement('button');
+    b2.type = 'button';
+    b2.className = 'chip' + (activeGlutenAltOnly ? ' active' : '');
+    b2.textContent = '🌾↻ Kan gjøres glutenfrie';
+    b2.addEventListener('click', function(){
+      activeGlutenAltOnly = !activeGlutenAltOnly;
+      renderOtherChips();
+      renderGrid();
+    });
+    otherChipsEl.appendChild(b2);
   }
 
   function matchesFilter(r){
@@ -2317,7 +2345,11 @@
       var hasType = (r.winePairings||[]).some(function(p){ return p.type === activeWineFilter; });
       if (!hasType) return false;
     }
-    if (activeGlutenOnly && !r.glutenfri) return false;
+    if (activeGlutenOnly || activeGlutenAltOnly){
+      var matchesGF = activeGlutenOnly && r.glutenfri;
+      var matchesAlt = activeGlutenAltOnly && hasGlutenAlternative(r);
+      if (!matchesGF && !matchesAlt) return false;
+    }
     if (!searchTerm) return true;
     var methodText = Array.isArray(r.method) ? r.method.join(' ') : (r.method || '');
     var pairingText = (r.winePairings||[]).map(function(p){ return p.wine || ''; }).join(' ');
@@ -2377,7 +2409,7 @@
         var tagsHtml = shownTags.map(function(t){ return '<span class="tag" title="' + escapeHtml(t) + '">' + escapeHtml(t) + '</span>'; }).join('') +
           (extraCount > 0 ? '<span class="tag tag-more">+' + extraCount + '</span>' : '');
         var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Nivå:</span>' + difficultyDots(r.difficulty) + '</span>' : '';
-        var glutenBadgeHtml = r.glutenfri ? '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>' : '';
+        var glutenBadgeHtml = r.glutenfri ? '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>' : (hasGlutenAlternative(r) ? '<span class="gluten-alt-badge" title="Kan gjøres glutenfri">🌾↻ Kan gjøres glutenfri</span>' : '');
         var primaryPairing = (r.winePairings && r.winePairings[0]) || null;
         var wineInfo = primaryPairing ? WINE_TYPES.filter(function(w){ return w.key === primaryPairing.type; })[0] : null;
         var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
@@ -2922,8 +2954,16 @@
     dDiff.textContent = r.difficulty ? ('Vanskelighetsgrad ' + r.difficulty + '/5') : '';
     dDiff.style.display = r.difficulty ? '' : 'none';
     var dGluten = document.getElementById('d-gluten');
-    dGluten.innerHTML = r.glutenfri ? '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>' : '';
-    dGluten.style.display = r.glutenfri ? '' : 'none';
+    if (r.glutenfri){
+      dGluten.innerHTML = '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>';
+      dGluten.style.display = '';
+    } else if (hasGlutenAlternative(r)){
+      dGluten.innerHTML = '<span class="gluten-alt-badge" title="Kan gjøres glutenfri">🌾↻ Kan gjøres glutenfri</span>';
+      dGluten.style.display = '';
+    } else {
+      dGluten.innerHTML = '';
+      dGluten.style.display = 'none';
+    }
     var dGlutenNote = document.getElementById('d-gluten-note');
     dGlutenNote.textContent = r.glutenNote ? ('⚠️ ' + r.glutenNote) : '';
     dGlutenNote.style.display = r.glutenNote ? '' : 'none';
