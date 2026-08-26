@@ -462,6 +462,31 @@
     margin-right:0.35rem;
   }
 
+  .gluten-badge{
+    font-size:0.72rem;
+    line-height:1;
+    color:#2f7d4f;
+    background:transparent;
+    border:1px solid #2f7d4f;
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    gap:0.3rem;
+    padding:0.24rem 0.55rem;
+    border-radius:999px;
+    font-family:"IBM Plex Mono",monospace;
+    letter-spacing:0.02em;
+  }
+  .gluten-note{
+    font-size:0.82rem;
+    color:var(--ink-muted);
+    background:rgba(184,121,47,0.08);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:0.55rem 0.75rem;
+    margin:0 0 1.25rem;
+  }
+
   .wine-swatch{
     width:0.6rem;
     height:0.6rem;
@@ -866,6 +891,10 @@
       <span class="filter-group-label">Sorter etter vin</span>
       <div class="chips" id="wineChips"></div>
     </div>
+    <div class="filter-group">
+      <span class="filter-group-label">Andre filtre</span>
+      <div class="chips" id="otherChips"></div>
+    </div>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -1009,6 +1038,10 @@
         <label for="f-tags">Tags</label>
         <input type="text" id="f-tags" placeholder="Kommaseparert, f.eks. sjømat, nordisk, helg">
       </div>
+      <div class="field" style="flex-direction:row; align-items:center; gap:0.5rem;">
+        <input type="checkbox" id="f-glutenfri" style="width:auto;">
+        <label for="f-glutenfri" style="margin:0;">Glutenfri</label>
+      </div>
       <div class="form-actions">
         <button type="button" class="btn danger small" id="deleteBtn" style="display:none;">Slett oppskrift</button>
         <div style="margin-left:auto; display:flex; gap:0.6rem;">
@@ -1048,8 +1081,10 @@
     <div class="detail-meta">
       <span id="d-servings"></span>
       <span id="d-difficulty"></span>
+      <span id="d-gluten"></span>
       <span id="d-date"></span>
     </div>
+    <p id="d-gluten-note" class="gluten-note" style="display:none;"></p>
     <div class="detail-section" id="d-ingredients-wrap">
       <h4 id="d-ingredients-label">Ingredienser</h4>
       <ul id="d-ingredients"></ul>
@@ -1178,7 +1213,8 @@
         "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Kopke-Fine-Ruby/p/28101",
         "product": "Kopke Fine Ruby"
       }
-    ]
+    ],
+    "glutenfri": false
   },
   {
     "id": "r1787733949286imp3",
@@ -1270,7 +1306,8 @@
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Cr%C3%A9mant-de-Bourgogne/Louis-Bouillot-Cr%C3%A9mant-de-Bourgogne-Perle-d%27Aurore-Ros%C3%A9/p/493701",
         "product": "Louis Bouillot Crémant de Bourgogne Perle d'Aurore Rosé"
       }
-    ]
+    ],
+    "glutenfri": true
   },
   {
     "id": "r1787736462634imp4",
@@ -1356,7 +1393,9 @@
         "url": "https://www.vinmonopolet.no/Land/Spania/Cava/Segura-Viudas-Reserva-Heredad-Brut/p/5043701",
         "product": "Segura Viudas Reserva Heredad Brut"
       }
-    ]
+    ],
+    "glutenfri": true,
+    "glutenNote": "Sjekk at chorizopølsen og fiskekraften du bruker er glutenfrie — noen merker tilsetter hvete som fyllstoff."
   },
   {
     "id": "r1787737559949imp5",
@@ -1427,7 +1466,9 @@
         "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Conegliano-Valdobbiadene-Prosecco/Ca%27Bertaldo-Valdobbiadene-Prosecco-Superiore-Brut/p/4672001",
         "product": "Ca'Bertaldo Valdobbiadene Prosecco Superiore Brut"
       }
-    ]
+    ],
+    "glutenfri": true,
+    "glutenNote": "Bruk glutenfri kyllingkraft/buljong — noen buljongterninger inneholder hvete."
   },
   {
     "id": "r1787740726471imp6",
@@ -1494,7 +1535,9 @@
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d%27Asti/Martini-Asti/p/91501",
         "product": "Martini Asti"
       }
-    ]
+    ],
+    "glutenfri": false,
+    "glutenNote": "Ølet i sausen inneholder gluten (byggmalt) — bytt til sertifisert glutenfri øl for en glutenfri versjon."
   }
 ]</script>
 
@@ -1525,6 +1568,7 @@
   ];
   var PAIRING_TYPE_ORDER = ['red', 'white', 'sparkling', 'dessert'];
   var activeWineFilter = 'Alle';
+  var activeGlutenOnly = false;
   var sortMode = 'newest';
   var cart = {};
   var activeCategory = "Alle";
@@ -1539,6 +1583,7 @@
   var grid = document.getElementById('grid');
   var chipsEl = document.getElementById('categoryChips');
   var wineChipsEl = document.getElementById('wineChips');
+  var otherChipsEl = document.getElementById('otherChips');
   var sortSelect = document.getElementById('sortSelect');
   var searchInput = document.getElementById('searchInput');
   var addBtn = document.getElementById('addBtn');
@@ -1762,12 +1807,27 @@
     });
   }
 
+  function renderOtherChips(){
+    otherChipsEl.innerHTML = '';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip' + (activeGlutenOnly ? ' active' : '');
+    b.textContent = '🌾✕ Kun glutenfrie';
+    b.addEventListener('click', function(){
+      activeGlutenOnly = !activeGlutenOnly;
+      renderOtherChips();
+      renderGrid();
+    });
+    otherChipsEl.appendChild(b);
+  }
+
   function matchesFilter(r){
     if (activeCategory !== 'Alle' && r.category !== activeCategory) return false;
     if (activeWineFilter !== 'Alle'){
       var hasType = (r.winePairings||[]).some(function(p){ return p.type === activeWineFilter; });
       if (!hasType) return false;
     }
+    if (activeGlutenOnly && !r.glutenfri) return false;
     if (!searchTerm) return true;
     var methodText = Array.isArray(r.method) ? r.method.join(' ') : (r.method || '');
     var pairingText = (r.winePairings||[]).map(function(p){ return p.wine || ''; }).join(' ');
@@ -1827,13 +1887,14 @@
         var tagsHtml = shownTags.map(function(t){ return '<span class="tag" title="' + escapeHtml(t) + '">' + escapeHtml(t) + '</span>'; }).join('') +
           (extraCount > 0 ? '<span class="tag tag-more">+' + extraCount + '</span>' : '');
         var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Nivå:</span>' + difficultyDots(r.difficulty) + '</span>' : '';
+        var glutenBadgeHtml = r.glutenfri ? '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>' : '';
         var primaryPairing = (r.winePairings && r.winePairings[0]) || null;
         var wineInfo = primaryPairing ? WINE_TYPES.filter(function(w){ return w.key === primaryPairing.type; })[0] : null;
         var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
         var extraPairings = primaryPairing && r.winePairings.length > 1 ? ' <span class="pairing-extra">+' + (r.winePairings.length - 1) + '</span>' : '';
         card.innerHTML = imgHtml +
           '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3></div>' +
-          '<div class="card-meta-row">' + difficultyHtml + '<span class="cat-tag">' + escapeHtml(r.category) + '</span></div>' +
+          '<div class="card-meta-row">' + difficultyHtml + glutenBadgeHtml + '<span class="cat-tag">' + escapeHtml(r.category) + '</span></div>' +
           (primaryPairing ? '<div class="pairing-short">' + swatchHtml + escapeHtml(primaryPairing.wine) + extraPairings + '</div>' : '') +
           '<div class="tags">' + tagsHtml + '</div>';
       }
@@ -1884,6 +1945,7 @@
     document.getElementById('f-winetype').value = firstPairing ? (firstPairing.type||'') : '';
     document.getElementById('f-pairing-note').value = firstPairing ? (firstPairing.note||'') : '';
     document.getElementById('f-tags').value = recipe ? (recipe.tags||[]).join(', ') : '';
+    document.getElementById('f-glutenfri').checked = !!(recipe && recipe.glutenfri);
     document.getElementById('deleteBtn').style.display = recipe ? 'inline-flex' : 'none';
     document.getElementById('f-image').value = '';
     formImageDataUrl = recipe ? recipe.image : undefined;
@@ -1964,6 +2026,7 @@
         }];
       })(),
       tags: tags,
+      glutenfri: document.getElementById('f-glutenfri').checked,
       pending: false,
       image: formImageDataUrl
     };
@@ -2367,6 +2430,12 @@
     var dDiff = document.getElementById('d-difficulty');
     dDiff.textContent = r.difficulty ? ('Vanskelighetsgrad ' + r.difficulty + '/5') : '';
     dDiff.style.display = r.difficulty ? '' : 'none';
+    var dGluten = document.getElementById('d-gluten');
+    dGluten.innerHTML = r.glutenfri ? '<span class="gluten-badge" title="Glutenfri">🌾✕ Glutenfri</span>' : '';
+    dGluten.style.display = r.glutenfri ? '' : 'none';
+    var dGlutenNote = document.getElementById('d-gluten-note');
+    dGlutenNote.textContent = r.glutenNote ? ('⚠️ ' + r.glutenNote) : '';
+    dGlutenNote.style.display = r.glutenNote ? '' : 'none';
     document.getElementById('d-date').textContent = r.dateAdded ? ('Lagt til ' + fmtDate(r.dateAdded)) : '';
 
     detailBaseGuests = (r.category !== 'Vin' && r.servingsCount) ? r.servingsCount : null;
@@ -2548,6 +2617,7 @@
     loadCartFromStorage();
     renderChips();
     renderWineChips();
+    renderOtherChips();
     renderGrid();
     renderCartBadge();
     syncDetailFromHash();
