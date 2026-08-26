@@ -589,6 +589,17 @@
   }
   .detail-section ul{margin:0; padding-left:1.15rem;}
   .detail-section li{margin-bottom:0.25rem;}
+  .detail-section li.ing-header{
+    list-style:none;
+    margin:0.9rem 0 0.4rem -1.15rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--accent-2);
+    font-weight:600;
+  }
+  .detail-section li.ing-header:first-child{margin-top:0;}
   .detail-section ol{margin:0; padding-left:1.4rem;}
   .detail-section ol li{margin-bottom:0.65rem; line-height:1.55; padding-left:0.2rem;}
   .detail-section ol li::marker{
@@ -1406,7 +1417,10 @@
     if (r.ingredients && r.ingredients.length){
       lines.push('');
       lines.push('Ingredienser:');
-      r.ingredients.forEach(function(i){ lines.push('• ' + i); });
+      r.ingredients.forEach(function(i){
+        var trimmed = i.trim();
+        lines.push(/^—.*—$/.test(trimmed) ? trimmed : '• ' + i);
+      });
     }
     var methodSteps = Array.isArray(r.method) ? r.method : (r.method ? [r.method] : []);
     if (methodSteps.length){
@@ -1521,6 +1535,11 @@
     var ingList = document.getElementById('d-ingredients');
     var factor = (detailBaseGuests && detailCurrentGuests) ? (detailCurrentGuests / detailBaseGuests) : 1;
     ingList.innerHTML = (r.ingredients||[]).map(function(i){
+      var trimmed = i.trim();
+      var headerMatch = /^—\s*(.*?)\s*—$/.exec(trimmed);
+      if (headerMatch){
+        return '<li class="ing-header">' + escapeHtml(headerMatch[1]) + '</li>';
+      }
       return '<li>' + escapeHtml(scaleIngredientLine(i, factor)) + '</li>';
     }).join('');
   }
