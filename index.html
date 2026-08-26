@@ -201,6 +201,7 @@
     color:var(--danger);
   }
   .btn.small{padding:0.4rem 0.75rem; font-size:0.82rem;}
+  .btn.in-cart{background:var(--accent-2); border-color:var(--accent-2); color:#fff;}
 
   .grid{
     display:grid;
@@ -332,50 +333,7 @@
     font-size:0.85rem;
   }
 
-  .card.selectable{border-style:dashed;}
-  .card.selected{border-color:var(--accent-2); border-width:2px; box-shadow:0 0 0 2px var(--accent-2) inset;}
-  .select-badge{
-    position:absolute;
-    top:0.7rem;
-    left:0.7rem;
-    width:1.5rem;
-    height:1.5rem;
-    border-radius:50%;
-    border:2px solid #fff;
-    background:rgba(20,16,12,0.35);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:0.85rem;
-    font-weight:700;
-    z-index:2;
-  }
-  .card.selected .select-badge{background:var(--accent-2);}
   .card{position:relative;}
-
-  .selection-bar{
-    position:fixed;
-    left:1rem;
-    right:1rem;
-    bottom:1.5rem;
-    max-width:560px;
-    margin:0 auto;
-    background:var(--ink);
-    color:var(--bg);
-    border-radius:14px;
-    padding:0.85rem 1.1rem;
-    display:none;
-    align-items:center;
-    justify-content:space-between;
-    gap:1rem;
-    box-shadow:0 10px 30px var(--shadow);
-    z-index:25;
-  }
-  .selection-bar.show{display:flex;}
-  .selection-bar-actions{display:flex; gap:0.6rem;}
-  .selection-bar .btn.small{padding:0.4rem 0.8rem; font-size:0.8rem;}
-  .selection-bar .btn.ghost{background:transparent; color:var(--bg); border-color:rgba(255,255,255,0.4);}
 
   .shop-recipe{margin-bottom:1.1rem;}
   .shop-recipe h4{
@@ -759,21 +717,13 @@
   <button type="button" class="btn fab" id="addBtn">+ Ny oppskrift</button>
 </div>
 
-<div class="selection-bar" id="selectionBar">
-  <span id="selectionCount">0 valgt</span>
-  <div class="selection-bar-actions">
-    <button type="button" class="btn ghost small" id="selectionCancel">Avbryt</button>
-    <button type="button" class="btn small" id="selectionShow">Vis handleliste</button>
-  </div>
-</div>
-
 <div class="overlay" id="shoppingOverlay">
   <div class="modal" style="max-width:560px;">
     <div class="modal-head">
       <h2 style="font-size:1.3rem;">Handleliste</h2>
       <button class="modal-close" id="shoppingClose" aria-label="Lukk">✕</button>
     </div>
-    <p style="color:var(--ink-muted); font-size:0.85rem; margin-top:0;">Mengder er fra grunnoppskriftene, ikke justert for gjesteantall. Like linjer på tvers av oppskrifter er slått sammen.</p>
+    <p style="color:var(--ink-muted); font-size:0.85rem; margin-top:0;">Mengder er justert for antall gjester du satte per oppskrift. Legg til oppskrifter fra oppskriftsvisningen.</p>
     <div id="shoppingList"></div>
     <div class="form-actions">
       <div style="margin-left:auto; display:flex; gap:0.6rem;">
@@ -958,10 +908,10 @@
     <div class="detail-section tags" id="d-tags"></div>
     <div class="form-actions">
       <button type="button" class="btn danger small" id="detailDeleteBtn">Slett</button>
-      <div style="margin-left:auto; display:flex; gap:0.6rem;">
+      <div style="margin-left:auto; display:flex; gap:0.6rem; flex-wrap:wrap;">
+        <button type="button" class="btn ghost small" id="detailAddToCartBtn">🛒 Legg til i handleliste</button>
         <button type="button" class="btn ghost small" id="detailShareBtn">📤 Del</button>
         <button type="button" class="btn ghost small" id="detailCloseBtn">Lukk</button>
-        <button type="button" class="btn small" id="detailEditBtn">Rediger</button>
       </div>
     </div>
   </div>
@@ -1013,8 +963,7 @@
   ];
   var activeWineFilter = 'Alle';
   var sortMode = 'newest';
-  var selectionMode = false;
-  var selectedIds = new Set();
+  var cart = {};
   var activeCategory = "Alle";
   var searchTerm = "";
   var editingId = null;
@@ -1032,10 +981,7 @@
   var addBtn = document.getElementById('addBtn');
   var urlBtn = document.getElementById('urlBtn');
   var shopBtn = document.getElementById('shopBtn');
-  var selectionBar = document.getElementById('selectionBar');
-  var selectionCount = document.getElementById('selectionCount');
-  var selectionCancel = document.getElementById('selectionCancel');
-  var selectionShow = document.getElementById('selectionShow');
+  var detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
   var shoppingOverlay = document.getElementById('shoppingOverlay');
   var shoppingList = document.getElementById('shoppingList');
   var shoppingCopyBtn = document.getElementById('shoppingCopyBtn');
@@ -1287,12 +1233,8 @@
     list.forEach(function(r){
       var card = document.createElement('button');
       card.type = 'button';
-      var isSelectable = selectionMode && !r.pending;
-      var isSelected = selectedIds.has(r.id);
-      card.className = 'card' + (r.pending ? ' pending' : '') +
-        (isSelectable ? ' selectable' : '') + (isSelectable && isSelected ? ' selected' : '');
-      var badgeHtml = isSelectable ? '<span class="select-badge">' + (isSelected ? '✓' : '') + '</span>' : '';
-      var imgHtml = (r.image ? '<img class="card-image" src="' + r.image + '" alt="">' : '') + badgeHtml;
+      card.className = 'card' + (r.pending ? ' pending' : '');
+      var imgHtml = (r.image ? '<img class="card-image" src="' + r.image + '" alt="">' : '');
       if (r.pending){
         card.innerHTML = imgHtml +
           '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3><span class="cat-tag pending-tag">Venter</span></div>' +
@@ -1314,13 +1256,6 @@
           '<div class="tags">' + tagsHtml + '</div>';
       }
       card.addEventListener('click', function(){
-        if (selectionMode){
-          if (r.pending) return;
-          if (selectedIds.has(r.id)) selectedIds.delete(r.id); else selectedIds.add(r.id);
-          renderGrid();
-          updateSelectionBar();
-          return;
-        }
         openDetail(r.id);
       });
       grid.appendChild(card);
@@ -1518,36 +1453,53 @@
 
   // ---------- shopping list ----------
 
-  function updateSelectionBar(){
-    selectionCount.textContent = selectedIds.size + ' valgt';
-    selectionBar.classList.toggle('show', selectionMode);
+  function scaledCartLines(r){
+    var factor = (detailBaseGuests && detailCurrentGuests) ? (detailCurrentGuests / detailBaseGuests) : 1;
+    return (r.ingredients || []).filter(function(line){
+      var t = (line || '').trim();
+      return t && !/^—.*—$/.test(t);
+    }).map(function(line){ return scaleIngredientLine(line, factor).trim(); });
   }
 
-  function enterSelectionMode(){
-    selectionMode = true;
-    selectedIds.clear();
-    updateSelectionBar();
-    renderGrid();
+  function addToCart(r){
+    cart[r.id] = { title: r.title, guests: detailCurrentGuests || null, lines: scaledCartLines(r) };
   }
 
-  function exitSelectionMode(){
-    selectionMode = false;
-    selectedIds.clear();
-    updateSelectionBar();
-    renderGrid();
+  function syncCartEntryIfPresent(r){
+    if (!r || !cart[r.id]) return;
+    addToCart(r);
   }
 
-  function currentSelectedRecipes(){
-    return recipes.filter(function(r){ return selectedIds.has(r.id); });
+  function renderCartButton(){
+    if (!detailAddToCartBtn) return;
+    var r = currentDetailRecipe();
+    var inCart = !!(r && cart[r.id]);
+    detailAddToCartBtn.textContent = inCart ? '✓ I handlelisten' : '🛒 Legg til i handleliste';
+    detailAddToCartBtn.classList.toggle('in-cart', inCart);
   }
 
-  function buildShoppingLines(selectedRecipes){
+  detailAddToCartBtn.addEventListener('click', function(){
+    var r = currentDetailRecipe();
+    if (!r) return;
+    if (cart[r.id]){
+      delete cart[r.id];
+      toast('Fjernet fra handlelisten');
+    } else {
+      addToCart(r);
+      toast('Lagt til i handlelisten');
+    }
+    renderCartButton();
+  });
+
+  function cartRecipeIds(){ return Object.keys(cart); }
+
+  function buildShoppingLines(){
     var seen = {};
     var order = [];
-    selectedRecipes.forEach(function(r){
-      (r.ingredients || []).forEach(function(line){
+    cartRecipeIds().forEach(function(id){
+      (cart[id].lines || []).forEach(function(line){
         var trimmed = (line || '').trim();
-        if (!trimmed || /^—.*—$/.test(trimmed)) return;
+        if (!trimmed) return;
         var key = trimmed.toLowerCase();
         if (seen[key]){ seen[key].count++; }
         else { seen[key] = { text: trimmed, count: 1 }; order.push(key); }
@@ -1560,23 +1512,22 @@
   }
 
   function currentShoppingText(){
-    return buildShoppingLines(currentSelectedRecipes()).join('\n');
+    return buildShoppingLines().join('\n');
   }
 
   function openShoppingList(){
-    var selectedRecipes = currentSelectedRecipes();
-    if (!selectedRecipes.length){
-      toast('Ingen oppskrifter valgt ennå');
+    var ids = cartRecipeIds();
+    if (!ids.length){
+      toast('Handlelisten er tom. Åpne en oppskrift og legg den til.');
+      shoppingList.innerHTML = '<p class="shop-empty">Ingen oppskrifter lagt til ennå.</p>';
+      shoppingOverlay.classList.add('show');
       return;
     }
-    var html = selectedRecipes.map(function(r){
-      var items = (r.ingredients || []).filter(function(line){
-        var t = (line || '').trim();
-        return t && !/^—.*—$/.test(t);
-      });
-      if (!items.length) return '';
-      return '<div class="shop-recipe"><h4>' + escapeHtml(r.title) + '</h4><ul>' +
-        items.map(function(i){ return '<li>' + escapeHtml(i.trim()) + '</li>'; }).join('') +
+    var html = ids.map(function(id){
+      var entry = cart[id];
+      if (!entry.lines.length) return '';
+      return '<div class="shop-recipe"><h4>' + escapeHtml(entry.title) + (entry.guests ? ' (' + entry.guests + ' pers.)' : '') + '</h4><ul>' +
+        entry.lines.map(function(i){ return '<li>' + escapeHtml(i) + '</li>'; }).join('') +
         '</ul></div>';
     }).join('');
     shoppingList.innerHTML = html || '<p class="shop-empty">Ingen ingredienser å vise.</p>';
@@ -1587,9 +1538,7 @@
     shoppingOverlay.classList.remove('show');
   }
 
-  shopBtn.addEventListener('click', enterSelectionMode);
-  selectionCancel.addEventListener('click', exitSelectionMode);
-  selectionShow.addEventListener('click', openShoppingList);
+  shopBtn.addEventListener('click', openShoppingList);
   shoppingClose.addEventListener('click', closeShoppingList);
   shoppingOverlay.addEventListener('click', function(e){ if (e.target === shoppingOverlay) closeShoppingList(); });
 
@@ -1720,7 +1669,7 @@
     detailCurrentGuests = Math.max(1, (detailCurrentGuests || detailBaseGuests) + delta);
     renderGuestRow();
     var r = currentDetailRecipe();
-    if (r) renderScaledIngredients(r);
+    if (r){ renderScaledIngredients(r); syncCartEntryIfPresent(r); }
   }
 
   document.getElementById('guestMinus').addEventListener('click', function(){ adjustGuests(-1); });
@@ -1729,7 +1678,7 @@
     detailCurrentGuests = detailBaseGuests;
     renderGuestRow();
     var r = currentDetailRecipe();
-    if (r) renderScaledIngredients(r);
+    if (r){ renderScaledIngredients(r); syncCartEntryIfPresent(r); }
   });
 
   function openDetail(id){
@@ -1807,6 +1756,7 @@
 
     detailOverlay.dataset.id = id;
     detailOverlay.classList.add('show');
+    renderCartButton();
   }
 
   function closeDetail(){ detailOverlay.classList.remove('show'); }
@@ -1814,12 +1764,6 @@
   document.getElementById('detailClose').addEventListener('click', closeDetail);
   document.getElementById('detailCloseBtn').addEventListener('click', closeDetail);
   detailOverlay.addEventListener('click', function(e){ if (e.target === detailOverlay) closeDetail(); });
-  document.getElementById('detailEditBtn').addEventListener('click', function(){
-    var id = detailOverlay.dataset.id;
-    var r = recipes.filter(function(x){ return x.id === id; })[0];
-    closeDetail();
-    if (r) openForm(r);
-  });
   document.getElementById('detailDeleteBtn').addEventListener('click', function(){
     var id = detailOverlay.dataset.id;
     showConfirm('Slette denne oppskriften? Dette kan ikke angres.').then(function(ok){
