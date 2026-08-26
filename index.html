@@ -443,6 +443,12 @@
     flex-wrap:wrap;
     justify-content:flex-end;
   }
+  .card-meta-row{
+    display:flex;
+    align-items:center;
+    gap:0.4rem;
+    flex-wrap:wrap;
+  }
   .dice-picker{
     display:flex;
     gap:0.4rem;
@@ -1259,11 +1265,12 @@
         var tagsHtml = shownTags.map(function(t){ return '<span class="tag" title="' + escapeHtml(t) + '">' + escapeHtml(t) + '</span>'; }).join('') +
           (extraCount > 0 ? '<span class="tag tag-more">+' + extraCount + '</span>' : '');
         var ratingHtml = r.rating ? '<span class="rating-badge" title="Terningkast ' + r.rating + '"><span class="dice-glyph">' + DICE_FACES[r.rating] + '</span>' + r.rating + '</span>' : '';
-        var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Vansk.</span>' + difficultyDots(r.difficulty) + '</span>' : '';
+        var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Nivå:</span>' + difficultyDots(r.difficulty) + '</span>' : '';
         var wineInfo = WINE_TYPES.filter(function(w){ return w.key === r.wineType; })[0];
         var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
         card.innerHTML = imgHtml +
-          '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3><div class="card-top-right">' + difficultyHtml + ratingHtml + '<span class="cat-tag">' + escapeHtml(r.category) + '</span></div></div>' +
+          '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3><div class="card-top-right">' + ratingHtml + '</div></div>' +
+          '<div class="card-meta-row">' + difficultyHtml + '<span class="cat-tag">' + escapeHtml(r.category) + '</span></div>' +
           (r.pairing ? '<div class="pairing-short">' + swatchHtml + escapeHtml(r.pairing) + '</div>' : '') +
           '<div class="tags">' + tagsHtml + '</div>';
       }
