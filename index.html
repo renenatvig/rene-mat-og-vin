@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>René's Mat &amp; Vin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -209,6 +214,9 @@
     .card h3{font-size:0.94rem; min-height:2.4em;}
     .card .pairing-short{font-size:0.78rem;}
     .difficulty-badge, .rating-badge, .cat-tag{font-size:0.66rem; padding:0.18rem 0.4rem;}
+    .toolbar{flex-direction:column; align-items:stretch;}
+    .search{flex:1 1 auto;}
+    .sort-select{width:100%;}
   }
 
   .card{
@@ -700,7 +708,8 @@
     overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
   }
 </style>
-
+</head>
+<body>
 <div class="wrap">
   <header class="page">
     <span class="eyebrow">Personlig arkiv</span>
@@ -1799,3 +1808,5 @@
   init();
 })();
 </script>
+</body>
+</html>
