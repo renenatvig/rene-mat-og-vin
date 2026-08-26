@@ -202,6 +202,14 @@
     grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
     gap:1rem;
   }
+  @media (max-width:640px){
+    .grid{grid-template-columns:repeat(2,1fr); gap:0.7rem;}
+    .card{padding:0.8rem 0.85rem;}
+    .card-image{width:calc(100% + 1.7rem); margin:-0.8rem -0.85rem 0;}
+    .card h3{font-size:0.94rem; min-height:2.4em;}
+    .card .pairing-short{font-size:0.78rem;}
+    .difficulty-badge, .rating-badge, .cat-tag{font-size:0.66rem; padding:0.18rem 0.4rem;}
+  }
 
   .card{
     background:var(--surface);
@@ -362,6 +370,11 @@
   }
   .difficulty-badge .diff-filled{color:var(--accent-2);}
   .difficulty-badge .diff-empty{opacity:0.35;}
+  .difficulty-badge .badge-label{
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-right:0.35rem;
+  }
 
   .wine-swatch{
     width:0.6rem;
@@ -427,6 +440,8 @@
     align-items:center;
     gap:0.4rem;
     flex-shrink:0;
+    flex-wrap:wrap;
+    justify-content:flex-end;
   }
   .dice-picker{
     display:flex;
@@ -695,6 +710,8 @@
     <select class="sort-select" id="sortSelect" aria-label="Sorter">
       <option value="newest">Nyeste først</option>
       <option value="rating">Terningkast (høyest først)</option>
+      <option value="difficulty-desc">Vanskelighetsgrad (høyest først)</option>
+      <option value="difficulty-asc">Vanskelighetsgrad (lavest først)</option>
       <option value="az">A–Å</option>
     </select>
   </div>
@@ -1192,6 +1209,18 @@
         if (br !== ar) return br - ar;
         return (b.dateAdded||'').localeCompare(a.dateAdded||'');
       });
+    } else if (sortMode === 'difficulty-desc'){
+      sorted.sort(function(a,b){
+        var ad = a.difficulty || 0, bd = b.difficulty || 0;
+        if (bd !== ad) return bd - ad;
+        return (b.dateAdded||'').localeCompare(a.dateAdded||'');
+      });
+    } else if (sortMode === 'difficulty-asc'){
+      sorted.sort(function(a,b){
+        var ad = a.difficulty || 99, bd = b.difficulty || 99;
+        if (ad !== bd) return ad - bd;
+        return (b.dateAdded||'').localeCompare(a.dateAdded||'');
+      });
     } else if (sortMode === 'az'){
       sorted.sort(function(a,b){ return a.title.localeCompare(b.title, 'nb'); });
     } else {
@@ -1230,7 +1259,7 @@
         var tagsHtml = shownTags.map(function(t){ return '<span class="tag" title="' + escapeHtml(t) + '">' + escapeHtml(t) + '</span>'; }).join('') +
           (extraCount > 0 ? '<span class="tag tag-more">+' + extraCount + '</span>' : '');
         var ratingHtml = r.rating ? '<span class="rating-badge" title="Terningkast ' + r.rating + '"><span class="dice-glyph">' + DICE_FACES[r.rating] + '</span>' + r.rating + '</span>' : '';
-        var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5">' + difficultyDots(r.difficulty) + '</span>' : '';
+        var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Vansk.</span>' + difficultyDots(r.difficulty) + '</span>' : '';
         var wineInfo = WINE_TYPES.filter(function(w){ return w.key === r.wineType; })[0];
         var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
         card.innerHTML = imgHtml +
