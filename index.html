@@ -705,25 +705,20 @@
     flex-wrap:wrap;
   }
   .pairing-entry-head strong{font-size:0.98rem;}
-  .pairing-group{margin-bottom:0.4rem;}
-  .pairing-group-heading{
-    display:flex;
-    align-items:center;
-    gap:0.4rem;
-    font-family:"IBM Plex Mono",monospace;
-    font-size:0.72rem;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--accent-2);
-    margin:0.9rem 0 0.1rem;
-  }
-  .pairing-group:first-child .pairing-group-heading{margin-top:0;}
   .pairing-type-label{
     font-family:"IBM Plex Mono",monospace;
     font-size:0.66rem;
     letter-spacing:0.05em;
     text-transform:uppercase;
     color:var(--ink-muted);
+  }
+  .pairing-price{
+    margin-left:auto;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.82rem;
+    font-weight:600;
+    color:var(--accent-2);
+    white-space:nowrap;
   }
 
   .field{
@@ -1205,7 +1200,7 @@
         "product": "Kopke Fine Ruby",
         "note": "Søt, fyldig portvin (forslag) — mørke bær- og karameltoner speiler dulce de leche-en og gir kontrast til tindvedsorbetens friske syre.",
         "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Kopke-Fine-Ruby/p/28101",
-        "priceBracket": "low"
+        "price": "216,90 kr"
       },
       {
         "type": "sparkling",
@@ -1213,7 +1208,7 @@
         "product": "Saracco Moscato d'Asti 2025",
         "note": "Lett, aromatisk søtvin med frisk syre (forslag) — syren matcher den syrlige tindvedsorbeten uten at sødmen tar overhånd over den fete, stekte bollen.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d'Asti/Saracco-Moscato-d'Asti-2025/p/3267701",
-        "priceBracket": "low"
+        "price": "179,90 kr"
       },
       {
         "type": "dessert",
@@ -1221,7 +1216,7 @@
         "product": "Graham's 10 Years Old Tawny",
         "note": "Nøtte- og karamelltoner fra lang fatlagring (forslag) — speiler dulce de leche-ens dybde enda tydeligere enn en ung ruby.",
         "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Graham%27s-10-Years-Old-Tawny/p/5482001",
-        "priceBracket": "high"
+        "price": "379,90 kr"
       },
       {
         "type": "dessert",
@@ -1229,7 +1224,7 @@
         "product": "Chateau Guiraud Sauternes",
         "note": "Fyldig, søt Bordeaux-vin med honning- og aprikosnoter (forslag) — matcher dulce de leche-ens karamellrikdom og gir et tyngre møte med den stekte bollen enn moscatoen.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Bordeaux/Chateau-Guiraud-Sauternes/p/1840902",
-        "priceBracket": "high"
+        "price": "356,30 kr (37,5 cl)"
       }
     ],
     "glutenfri": false
@@ -1309,7 +1304,7 @@
         "product": "Rioja Vega Crianza 2022",
         "note": "Myk, fruktig tempranillo-basert crianza (forslag) — lite skarpe tanniner møter ingefær, kardemomme og garam masala uten å kollidere.",
         "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/Rioja-Vega-Crianza-2022/p/1303101",
-        "priceBracket": "low"
+        "price": "150,00 kr"
       },
       {
         "type": "red",
@@ -1317,7 +1312,7 @@
         "product": "Guigal Côtes du Rhône Rouge 2023",
         "note": "Klassisk GSM-blend med mørk bærfrukt og krydder (forslag) — speiler spisskummen og kanel i retten.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Rh%C3%B4ne/C%C3%B4tes-du-Rh%C3%B4ne/Guigal-C%C3%B4tes-du-Rh%C3%B4ne-Rouge-2023/p/730401",
-        "priceBracket": "low"
+        "price": "204,90 kr"
       },
       {
         "type": "red",
@@ -1325,7 +1320,7 @@
         "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023",
         "note": "Lett, fruktig rødvin med lavt tanninnivå (forslag) — fylde nok til lammet uten å kollidere med krydderne.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Bourgogne/Louis-Jadot-Bourgogne-Couvent-des-Jacobins-Pinot-Noir-2023/p/3171201",
-        "priceBracket": "high"
+        "price": "324,90 kr"
       },
       {
         "type": "red",
@@ -1333,7 +1328,7 @@
         "product": "Guigal Crozes-Hermitage 2022",
         "note": "Fyldig syrah med pepper og krydder (forslag) — en mer eksklusiv, varm match til de indiske krydderne.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Rh%C3%B4ne/Crozes-Hermitage/Guigal-Crozes-Hermitage-2021/p/4582301",
-        "priceBracket": "high"
+        "price": "309,90 kr"
       }
     ],
     "glutenfri": true
@@ -1407,7 +1402,7 @@
         "product": "Val do Galir Godello 2025",
         "note": "Fylde og et snev av fat/krydder matcher chorizoen og den syrlige rødbeten uten å overdøve piggvaren (forslag).",
         "url": "https://www.vinmonopolet.no/Land/Spania/Galicia/Valdeorras/Val-do-Galir-Godello-2024/p/10789001",
-        "priceBracket": "low"
+        "price": "200,00 kr"
       },
       {
         "type": "red",
@@ -1415,7 +1410,7 @@
         "product": "El Coto Crianza 2022",
         "note": "Klassisk, fruktig og myk Rioja Crianza (forslag) — nok bær og krydder til å møte chorizoens paprika- og røkfylde uten å overdøve piggvaren.",
         "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/El-Coto-Crianza-2021/p/3455201",
-        "priceBracket": "low"
+        "price": "169,90 kr"
       },
       {
         "type": "red",
@@ -1423,7 +1418,7 @@
         "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023",
         "note": "Lett Pinot Noir med fin syre (forslag) — nok fylde til chorizoen uten å ta knekken på den delikate piggvaren.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Bourgogne/Louis-Jadot-Bourgogne-Couvent-des-Jacobins-Pinot-Noir-2023/p/3171201",
-        "priceBracket": "high"
+        "price": "324,90 kr"
       },
       {
         "type": "red",
@@ -1431,7 +1426,7 @@
         "product": "Muga Reserva 2022",
         "note": "Fyldig, elegant Rioja Reserva med modne bær og vaniljetoner fra fatlagring (forslag) — matcher både den saltbakte rødbeten og chorizoskummets røkfylde.",
         "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/Muga-Reserva-2021/p/3098901",
-        "priceBracket": "high"
+        "price": "329,90 kr"
       }
     ],
     "glutenfri": true,
@@ -1491,7 +1486,7 @@
         "product": "Vajra Barbera d'Alba 2025",
         "note": "Lett, syrlig Barbera (forslag) — syren kutter gjennom den fete risottoen og matcher fenalårets salte, konsentrerte smak.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Barbera-d%27Alba/Vajra-Barbera-d%27Alba-2025/p/1373701",
-        "priceBracket": "low"
+        "price": "245,00 kr"
       },
       {
         "type": "white",
@@ -1499,7 +1494,7 @@
         "product": "Umani Ronchi I Sassi Verdicchio dei Castelli di Jesi Classico Superiore 2025",
         "note": "Fyldig, tørr hvitvin fra Marche (forslag). Friske syre og lett mandelnote balanserer smørrikdommen og den lagrede osten i risottoen, samtidig som den har nok fylde til å holde mot fenalårets salte, konsentrerte smak.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Marche/Verdicchio-dei-Castelli-di-Jesi-Classico/Umani-Ronchi-I-Sassi-Verdicchio-dei-Castelli-di-Jesi-Classico-Superiore-2025/p/15020401",
-        "priceBracket": "low"
+        "price": "199,90 kr"
       },
       {
         "type": "red",
@@ -1507,7 +1502,7 @@
         "product": "Monsanto Chianti Classico Riserva 2022",
         "note": "Toskansk Sangiovese med markert syre og strame tanniner (forslag) — skjærer gjennom fettet i risottoen og matcher saltheten i fenalåret.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Toscana/Chianti-Classico/Monsanto-Chianti-Classico-Riserva-2022/p/4902101",
-        "priceBracket": "high"
+        "price": "529,90 kr"
       },
       {
         "type": "red",
@@ -1515,7 +1510,7 @@
         "product": "Mauro Molino Langhe Nebbiolo",
         "note": "Lettere, delikat Nebbiolo fra Piemonte med høy syre og rosearoma (forslag) — utfyller den lagrede osten uten å overdøve fenalåret.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Langhe/Mauro-Molino-Langhe-Nebbiolo/p/11402001",
-        "priceBracket": "high"
+        "price": "289,90 kr"
       }
     ],
     "glutenfri": true,
@@ -1571,7 +1566,7 @@
         "product": "Nectar Pedro Ximénez",
         "note": "Konsentrert, rosinsøt sherry (forslag). PX sin karamell- og tørket frukt-søthet speiler brunostens søtlige, salte karakter og ølsausens malt- og farin-toner, mens kefir-isens friske syre balanserer sherryens fylde.",
         "url": "https://www.vinmonopolet.no/Land/Spania/Andalucia/Jerez-X%C3%A9r%C3%A8s-Sherry/Nectar-Pedro-Xim%C3%A9nez/p/5619202",
-        "priceBracket": "low"
+        "price": "209,90 kr (37,5 cl)"
       },
       {
         "type": "sparkling",
@@ -1579,7 +1574,7 @@
         "product": "Martini Asti",
         "note": "Søt Asti Spumante med druesødme (forslag) — lette bobler og friskhet som balanserer brunosten uten å konkurrere med kefir-isens syre.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d'Asti/Martini-Asti/p/91501",
-        "priceBracket": "low"
+        "price": "144,90 kr"
       },
       {
         "type": "red",
@@ -1587,7 +1582,7 @@
         "product": "Farina Recioto della Valpolicella Classico 2021",
         "note": "Søt Recioto med tørket bær og rosin (forslag) — matcher brunostens karamellsødme og ølsausens malttoner.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Recioto-della-Valpolicella-Classico/Farina-Recioto-della-Valpolicella-Classico-2021/p/1780102",
-        "priceBracket": "high"
+        "price": "369,90 kr (50 cl)"
       },
       {
         "type": "dessert",
@@ -1595,7 +1590,7 @@
         "product": "Graham's 10 Years Old Tawny",
         "note": "Nøtte- og karamelltoner fra lang fatlagring (forslag) — speiler brunostens og ølsausens malt- og karamelltoner enda dypere.",
         "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Graham%27s-10-Years-Old-Tawny/p/5482001",
-        "priceBracket": "high"
+        "price": "379,90 kr"
       }
     ],
     "glutenfri": false,
@@ -1656,7 +1651,7 @@
         "product": "Giovanni Rosso Langhe Nebbiolo 2023",
         "note": "Ung Nebbiolo med høy syre og myke, fine tanniner (forslag) — en klassisk match til rått, fett kjøtt som wagyu-tartar, uten å kollidere metallisk med den delikate teksturen.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Langhe/Giovanni-Rosso-Langhe-Nebbiolo-2023/p/1265301",
-        "priceBracket": "low"
+        "price": "249,90 kr"
       },
       {
         "type": "red",
@@ -1664,7 +1659,7 @@
         "product": "Wine of Mine Gamay",
         "note": "Frisk, fruktig Gamay med lav tanninstruktur og god syre (forslag) — like skånsom mot det rå kjøttet, med et lettere og mer bærfriskt uttrykk enn nebbioloen.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Beaujolais/Wine-of-Mine-Gamay/p/15075401",
-        "priceBracket": "low"
+        "price": "189,90 kr"
       },
       {
         "type": "red",
@@ -1672,7 +1667,7 @@
         "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023",
         "note": "Elegant, jordnær Pinot Noir (forslag) — trøffelnotene i majonesen møter Pinot Noirens egen jordighet, mens den myke tanninstrukturen ikke tar knekken på det rå kjøttet.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Bourgogne/Louis-Jadot-Bourgogne-Couvent-des-Jacobins-Pinot-Noir-2023/p/3171201",
-        "priceBracket": "high"
+        "price": "324,90 kr"
       },
       {
         "type": "sparkling",
@@ -1680,7 +1675,7 @@
         "product": "Nicolas Feuillatte Brut",
         "note": "Tørr, syrefrisk champagne (forslag) — den klassiske «unn deg litt ekstra»-vinen til tartar; boblene renser ganen mellom biter av det fete, rå kjøttet og matcher rikdommen i trøffelmajonesen.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Champagne/Nicolas-Feuillatte-Brut/p/3951301",
-        "priceBracket": "high"
+        "price": "399,90 kr"
       }
     ],
     "tags": [
@@ -1795,7 +1790,7 @@
         "product": "Allesverloren Shiraz",
         "note": "Fyldig, saftig Shiraz med mørke bær, lakris og urter (forslag) — matcher viltets kraft og bærsausens sødme.",
         "url": "https://www.vinmonopolet.no/Land/Sør-Afrika/Coastal-Region/Swartland/Allesverloren-Shiraz/p/4765301",
-        "priceBracket": "low"
+        "price": "194,90 kr"
       },
       {
         "type": "red",
@@ -1803,7 +1798,7 @@
         "product": "Crasto Douro Red 2022",
         "note": "Fyldig Douro-blend med rike røde og mørke bær (forslag) — klassisk struktur til viltrett med bærsaus.",
         "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Crasto-Douro-Red-2021/p/3046201",
-        "priceBracket": "low"
+        "price": "239,90 kr"
       },
       {
         "type": "red",
@@ -1811,7 +1806,7 @@
         "product": "Tommasi Amarone della Valpolicella Classico 2021",
         "note": "Fyldig Amarone med konsentrert, tørket-druefrukt (forslag) — nok kraft til å stå imot både reinsdyret og den søte blåbærsausen.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Amarone-della-Valpolicella-Classico/Tommasi-Amarone-della-Valpolicella-Classico-2021/p/629901",
-        "priceBracket": "high"
+        "price": "489,90 kr"
       },
       {
         "type": "red",
@@ -1819,7 +1814,7 @@
         "product": "La Fiole du Pape",
         "note": "Kraftig, Grenache-basert Châteauneuf-du-Pape med solbær og søte krydder (forslag) — en sørfransk, mer krydret retning enn Amaronen.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Rh%C3%B4ne/Ch%C3%A2teauneuf-du-Pape/La-Fiole-du-Pape/p/298801",
-        "priceBracket": "high"
+        "price": "399,90 kr"
       }
     ],
     "tags": [
@@ -1862,10 +1857,6 @@
     {key:'white', label:'Hvitvin', swatch:'white'},
     {key:'sparkling', label:'Musserende', swatch:'sparkling'},
     {key:'dessert', label:'Dessertvin', swatch:'dessert'}
-  ];
-  var PRICE_BRACKETS = [
-    {key:'low', label:'Opptil 250 kr'},
-    {key:'high', label:'250–999 kr'}
   ];
   var activeWineFilter = 'Alle';
   var activeGlutenOnly = false;
@@ -2613,18 +2604,9 @@
     if (r.winePairings && r.winePairings.length){
       lines.push('');
       lines.push('Passer sammen med:');
-      PRICE_BRACKETS.forEach(function(bracket){
-        var entries = r.winePairings.filter(function(p){ return p.priceBracket === bracket.key; });
-        if (!entries.length) return;
-        lines.push(bracket.label + ':');
-        entries.forEach(function(p){
-          lines.push('- ' + (p.product || p.wine) + (p.note ? ' — ' + p.note : ''));
-          if (p.url) lines.push('  ' + p.url);
-        });
-      });
-      var leftoverPairings = r.winePairings.filter(function(p){ return PRICE_BRACKETS.map(function(b){ return b.key; }).indexOf(p.priceBracket) === -1; });
-      leftoverPairings.forEach(function(p){
-        lines.push('- ' + (p.product || p.wine) + (p.note ? ' — ' + p.note : ''));
+      r.winePairings.forEach(function(p){
+        var priceSuffix = p.price ? ' (' + p.price + ')' : '';
+        lines.push('- ' + (p.product || p.wine) + priceSuffix + (p.note ? ' — ' + p.note : ''));
         if (p.url) lines.push('  ' + p.url);
       });
     }
@@ -2780,10 +2762,17 @@
     var pairings = r.winePairings || [];
     pairWrap.style.display = pairings.length ? '' : 'none';
 
+    function pairingPriceValue(p){
+      var m = /([\d.,]+)\s*kr/.exec(p.price || '');
+      if (!m) return Infinity;
+      return parseFloat(m[1].replace(/\./g, '').replace(',', '.'));
+    }
+
     function renderPairingEntry(p){
       var wineInfo = WINE_TYPES.filter(function(w){ return w.key === p.type; })[0];
       var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
       var typeLabelHtml = wineInfo ? '<span class="pairing-type-label">' + escapeHtml(wineInfo.label) + '</span>' : '';
+      var priceHtml = p.price ? '<span class="pairing-price">' + escapeHtml(p.price) + '</span>' : '';
       var noteHtml = p.note ? '<p class="pairing-note">' + escapeHtml(p.note) + '</p>' : '';
       var productHtml = p.url ? (
         '<div class="pairing-product">' +
@@ -2791,22 +2780,13 @@
         '</div>'
       ) : '';
       return '<div class="pairing-entry">' +
-        '<div class="pairing-entry-head">' + swatchHtml + typeLabelHtml + '<strong>' + escapeHtml(p.product || p.wine || '') + '</strong></div>' +
+        '<div class="pairing-entry-head">' + swatchHtml + typeLabelHtml + '<strong>' + escapeHtml(p.product || p.wine || '') + '</strong>' + priceHtml + '</div>' +
         noteHtml + productHtml +
       '</div>';
     }
 
-    var groupsHtml = PRICE_BRACKETS.map(function(bracket){
-      var entries = pairings.filter(function(p){ return p.priceBracket === bracket.key; });
-      if (!entries.length) return '';
-      var headingHtml = '<h5 class="pairing-group-heading">' + escapeHtml(bracket.label) + '</h5>';
-      return '<div class="pairing-group">' + headingHtml + entries.map(renderPairingEntry).join('') + '</div>';
-    }).join('');
-    var leftover = pairings.filter(function(p){ return PRICE_BRACKETS.map(function(b){ return b.key; }).indexOf(p.priceBracket) === -1; });
-    if (leftover.length){
-      groupsHtml += '<div class="pairing-group"><h5 class="pairing-group-heading">Andre forslag</h5>' + leftover.map(renderPairingEntry).join('') + '</div>';
-    }
-    document.getElementById('d-pairings').innerHTML = groupsHtml;
+    var sortedPairings = pairings.slice().sort(function(a, b){ return pairingPriceValue(a) - pairingPriceValue(b); });
+    document.getElementById('d-pairings').innerHTML = sortedPairings.map(renderPairingEntry).join('');
 
     document.getElementById('d-tags').innerHTML = (r.tags||[]).map(function(t){ return '<span class="tag">' + escapeHtml(t) + '</span>'; }).join('');
 
