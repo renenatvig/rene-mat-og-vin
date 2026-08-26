@@ -718,6 +718,13 @@
     margin:0.9rem 0 0.1rem;
   }
   .pairing-group:first-child .pairing-group-heading{margin-top:0;}
+  .pairing-type-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.66rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-muted);
+  }
 
   .field{
     display:flex;
@@ -1193,25 +1200,36 @@
     "difficulty": 4,
     "winePairings": [
       {
+        "type": "red",
+        "wine": "Ruby Portvin",
+        "product": "Kopke Fine Ruby",
+        "note": "Søt, fyldig portvin (forslag) — mørke bær- og karameltoner speiler dulce de leche-en og gir kontrast til tindvedsorbetens friske syre.",
+        "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Kopke-Fine-Ruby/p/28101",
+        "priceBracket": "low"
+      },
+      {
         "type": "sparkling",
         "wine": "Moscato d'Asti",
+        "product": "Saracco Moscato d'Asti 2025",
         "note": "Lett, aromatisk søtvin med frisk syre (forslag) — syren matcher den syrlige tindvedsorbeten uten at sødmen tar overhånd over den fete, stekte bollen.",
         "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d'Asti/Saracco-Moscato-d'Asti-2025/p/3267701",
-        "product": "Saracco Moscato d'Asti 2025"
+        "priceBracket": "low"
+      },
+      {
+        "type": "dessert",
+        "wine": "Tawny Portvin",
+        "product": "Graham's 10 Years Old Tawny",
+        "note": "Nøtte- og karamelltoner fra lang fatlagring (forslag) — speiler dulce de leche-ens dybde enda tydeligere enn en ung ruby.",
+        "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Graham%27s-10-Years-Old-Tawny/p/5482001",
+        "priceBracket": "high"
       },
       {
         "type": "dessert",
         "wine": "Sauternes",
+        "product": "Chateau Guiraud Sauternes",
         "note": "Fyldig, søt Bordeaux-vin med honning- og aprikosnoter (forslag) — matcher dulce de leche-ens karamellrikdom og gir et tyngre møte med den stekte bollen enn moscatoen.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Bordeaux/Chateau-Guiraud-Sauternes/p/1840902",
-        "product": "Chateau Guiraud Sauternes"
-      },
-      {
-        "type": "dessert",
-        "wine": "Ruby Portvin",
-        "note": "Søt, fyldig portvin (forslag) — mørke bær- og karameltoner speiler dulce de leche-en og gir kontrast til tindvedsorbetens friske syre.",
-        "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Kopke-Fine-Ruby/p/28101",
-        "product": "Kopke Fine Ruby"
+        "priceBracket": "high"
       }
     ],
     "glutenfri": false
@@ -1286,25 +1304,36 @@
     "difficulty": 3,
     "winePairings": [
       {
-        "type": "white",
-        "wine": "Gewürztraminer",
-        "note": "Aromatisk, halvtørr hvitvin (forslag) — krydderaromaene møter kardemomme, kanel og garam masala i retten.",
-        "url": "https://www.vinmonopolet.no/Land/Frankrike/Alsace/Hugel-Classic-Gewurztraminer-2022/p/4321201",
-        "product": "Hugel Classic Gewurztraminer 2023"
+        "type": "red",
+        "wine": "Rioja Crianza",
+        "product": "Rioja Vega Crianza 2022",
+        "note": "Myk, fruktig tempranillo-basert crianza (forslag) — lite skarpe tanniner møter ingefær, kardemomme og garam masala uten å kollidere.",
+        "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/Rioja-Vega-Crianza-2022/p/1303101",
+        "priceBracket": "low"
+      },
+      {
+        "type": "red",
+        "wine": "Côtes du Rhône Rouge",
+        "product": "Guigal Côtes du Rhône Rouge 2023",
+        "note": "Klassisk GSM-blend med mørk bærfrukt og krydder (forslag) — speiler spisskummen og kanel i retten.",
+        "url": "https://www.vinmonopolet.no/Land/Frankrike/Rh%C3%B4ne/C%C3%B4tes-du-Rh%C3%B4ne/Guigal-C%C3%B4tes-du-Rh%C3%B4ne-Rouge-2023/p/730401",
+        "priceBracket": "low"
       },
       {
         "type": "red",
         "wine": "Pinot Noir",
+        "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023",
         "note": "Lett, fruktig rødvin med lavt tanninnivå (forslag) — fylde nok til lammet uten å kollidere med krydderne.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Bourgogne/Louis-Jadot-Bourgogne-Couvent-des-Jacobins-Pinot-Noir-2023/p/3171201",
-        "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023"
+        "priceBracket": "high"
       },
       {
-        "type": "sparkling",
-        "wine": "Crémant Rosé",
-        "note": "Tørr cava-rosé med bærfriskhet (forslag) — bobler og syre kjøler ned krydderstyrken og løfter frukten i sausen.",
-        "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Cr%C3%A9mant-de-Bourgogne/Louis-Bouillot-Cr%C3%A9mant-de-Bourgogne-Perle-d%27Aurore-Ros%C3%A9/p/493701",
-        "product": "Louis Bouillot Crémant de Bourgogne Perle d'Aurore Rosé"
+        "type": "red",
+        "wine": "Crozes-Hermitage",
+        "product": "Guigal Crozes-Hermitage 2022",
+        "note": "Fyldig syrah med pepper og krydder (forslag) — en mer eksklusiv, varm match til de indiske krydderne.",
+        "url": "https://www.vinmonopolet.no/Land/Frankrike/Rh%C3%B4ne/Crozes-Hermitage/Guigal-Crozes-Hermitage-2021/p/4582301",
+        "priceBracket": "high"
       }
     ],
     "glutenfri": true
@@ -1375,23 +1404,34 @@
       {
         "type": "white",
         "wine": "Godello",
+        "product": "Val do Galir Godello 2025",
         "note": "Fylde og et snev av fat/krydder matcher chorizoen og den syrlige rødbeten uten å overdøve piggvaren (forslag).",
         "url": "https://www.vinmonopolet.no/Land/Spania/Galicia/Valdeorras/Val-do-Galir-Godello-2024/p/10789001",
-        "product": "Val do Galir Godello 2025"
+        "priceBracket": "low"
+      },
+      {
+        "type": "red",
+        "wine": "Rioja Crianza",
+        "product": "El Coto Crianza 2022",
+        "note": "Klassisk, fruktig og myk Rioja Crianza (forslag) — nok bær og krydder til å møte chorizoens paprika- og røkfylde uten å overdøve piggvaren.",
+        "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/El-Coto-Crianza-2021/p/3455201",
+        "priceBracket": "low"
       },
       {
         "type": "red",
         "wine": "Pinot Noir (lett)",
+        "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023",
         "note": "Lett Pinot Noir med fin syre (forslag) — nok fylde til chorizoen uten å ta knekken på den delikate piggvaren.",
         "url": "https://www.vinmonopolet.no/Land/Frankrike/Burgund/Bourgogne/Louis-Jadot-Bourgogne-Couvent-des-Jacobins-Pinot-Noir-2023/p/3171201",
-        "product": "Louis Jadot Bourgogne Couvent des Jacobins Pinot Noir 2023"
+        "priceBracket": "high"
       },
       {
-        "type": "sparkling",
-        "wine": "Cava Reserva",
-        "note": "Tørr cava med god syre og brødnoter (forslag) — vasker rundt chorizoskummet og løfter rødbetens sødme.",
-        "url": "https://www.vinmonopolet.no/Land/Spania/Cava/Segura-Viudas-Reserva-Heredad-Brut/p/5043701",
-        "product": "Segura Viudas Reserva Heredad Brut"
+        "type": "red",
+        "wine": "Rioja Reserva",
+        "product": "Muga Reserva 2022",
+        "note": "Fyldig, elegant Rioja Reserva med modne bær og vaniljetoner fra fatlagring (forslag) — matcher både den saltbakte rødbeten og chorizoskummets røkfylde.",
+        "url": "https://www.vinmonopolet.no/Land/Spania/Rioja/Muga-Reserva-2021/p/3098901",
+        "priceBracket": "high"
       }
     ],
     "glutenfri": true,
@@ -1446,25 +1486,36 @@
     "difficulty": 3,
     "winePairings": [
       {
+        "type": "red",
+        "wine": "Barbera d'Alba",
+        "product": "Vajra Barbera d'Alba 2025",
+        "note": "Lett, syrlig Barbera (forslag) — syren kutter gjennom den fete risottoen og matcher fenalårets salte, konsentrerte smak.",
+        "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Barbera-d%27Alba/Vajra-Barbera-d%27Alba-2025/p/1373701",
+        "priceBracket": "low"
+      },
+      {
         "type": "white",
         "wine": "Verdicchio",
+        "product": "Umani Ronchi I Sassi Verdicchio dei Castelli di Jesi Classico Superiore 2025",
         "note": "Fyldig, tørr hvitvin fra Marche (forslag). Friske syre og lett mandelnote balanserer smørrikdommen og den lagrede osten i risottoen, samtidig som den har nok fylde til å holde mot fenalårets salte, konsentrerte smak.",
-        "url": "https://www.vinmonopolet.no/Land/Italia/Marche/Verdicchio-dei-Castelli-di-Jesi-Classico/Umani-Ronchi-I-Sassi-Verdicchio-dei-Castelli-di-Jesi-Classico-Superiore-2024/p/15020401",
-        "product": "Umani Ronchi I Sassi Verdicchio dei Castelli di Jesi Classico Superiore 2025"
+        "url": "https://www.vinmonopolet.no/Land/Italia/Marche/Verdicchio-dei-Castelli-di-Jesi-Classico/Umani-Ronchi-I-Sassi-Verdicchio-dei-Castelli-di-Jesi-Classico-Superiore-2025/p/15020401",
+        "priceBracket": "low"
       },
       {
         "type": "red",
-        "wine": "Barbera d'Alba",
-        "note": "Lett, syrlig Barbera (forslag) — syren kutter gjennom den fete risottoen og matcher fenalårets salte, konsentrerte smak.",
-        "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Barbera-d%27Alba/Vajra-Barbera-d%27Alba-2025/p/1373701",
-        "product": "Vajra Barbera d'Alba 2025"
+        "wine": "Chianti Classico Riserva",
+        "product": "Monsanto Chianti Classico Riserva 2022",
+        "note": "Toskansk Sangiovese med markert syre og strame tanniner (forslag) — skjærer gjennom fettet i risottoen og matcher saltheten i fenalåret.",
+        "url": "https://www.vinmonopolet.no/Land/Italia/Toscana/Chianti-Classico/Monsanto-Chianti-Classico-Riserva-2022/p/4902101",
+        "priceBracket": "high"
       },
       {
-        "type": "sparkling",
-        "wine": "Prosecco Superiore Brut",
-        "note": "Tørr prosecco (forslag) — klassisk kombinasjon med saltet, spekt kjøtt, og bobler som renser ganen mellom skjeer med risotto.",
-        "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Conegliano-Valdobbiadene-Prosecco/Ca%27Bertaldo-Valdobbiadene-Prosecco-Superiore-Brut/p/4672001",
-        "product": "Ca'Bertaldo Valdobbiadene Prosecco Superiore Brut"
+        "type": "red",
+        "wine": "Langhe Nebbiolo",
+        "product": "Mauro Molino Langhe Nebbiolo",
+        "note": "Lettere, delikat Nebbiolo fra Piemonte med høy syre og rosearoma (forslag) — utfyller den lagrede osten uten å overdøve fenalåret.",
+        "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Langhe/Mauro-Molino-Langhe-Nebbiolo/p/11402001",
+        "priceBracket": "high"
       }
     ],
     "glutenfri": true,
@@ -1517,23 +1568,34 @@
       {
         "type": "dessert",
         "wine": "Pedro Ximénez",
+        "product": "Nectar Pedro Ximénez",
         "note": "Konsentrert, rosinsøt sherry (forslag). PX sin karamell- og tørket frukt-søthet speiler brunostens søtlige, salte karakter og ølsausens malt- og farin-toner, mens kefir-isens friske syre balanserer sherryens fylde.",
         "url": "https://www.vinmonopolet.no/Land/Spania/Andalucia/Jerez-X%C3%A9r%C3%A8s-Sherry/Nectar-Pedro-Xim%C3%A9nez/p/5619202",
-        "product": "Nectar Pedro Ximénez"
-      },
-      {
-        "type": "dessert",
-        "wine": "Recioto della Valpolicella",
-        "note": "Søt Recioto med tørket bær og rosin (forslag) — matcher brunostens karamellsødme og ølsausens malttoner.",
-        "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Recioto-della-Valpolicella-Classico/Farina-Recioto-della-Valpolicella-Classico-2021/p/1780102",
-        "product": "Farina Recioto della Valpolicella Classico 2021"
+        "priceBracket": "low"
       },
       {
         "type": "sparkling",
         "wine": "Asti Spumante",
+        "product": "Martini Asti",
         "note": "Søt Asti Spumante med druesødme (forslag) — lette bobler og friskhet som balanserer brunosten uten å konkurrere med kefir-isens syre.",
-        "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d%27Asti/Martini-Asti/p/91501",
-        "product": "Martini Asti"
+        "url": "https://www.vinmonopolet.no/Land/Italia/Piemonte/Moscato-d'Asti/Martini-Asti/p/91501",
+        "priceBracket": "low"
+      },
+      {
+        "type": "red",
+        "wine": "Recioto della Valpolicella",
+        "product": "Farina Recioto della Valpolicella Classico 2021",
+        "note": "Søt Recioto med tørket bær og rosin (forslag) — matcher brunostens karamellsødme og ølsausens malttoner.",
+        "url": "https://www.vinmonopolet.no/Land/Italia/Veneto/Recioto-della-Valpolicella-Classico/Farina-Recioto-della-Valpolicella-Classico-2021/p/1780102",
+        "priceBracket": "high"
+      },
+      {
+        "type": "dessert",
+        "wine": "Tawny Portvin",
+        "product": "Graham's 10 Years Old Tawny",
+        "note": "Nøtte- og karamelltoner fra lang fatlagring (forslag) — speiler brunostens og ølsausens malt- og karamelltoner enda dypere.",
+        "url": "https://www.vinmonopolet.no/Land/Portugal/Douro-e-Porto/Graham%27s-10-Years-Old-Tawny/p/5482001",
+        "priceBracket": "high"
       }
     ],
     "glutenfri": false,
@@ -1566,7 +1628,10 @@
     {key:'sparkling', label:'Musserende', swatch:'sparkling'},
     {key:'dessert', label:'Dessertvin', swatch:'dessert'}
   ];
-  var PAIRING_TYPE_ORDER = ['red', 'white', 'sparkling', 'dessert'];
+  var PRICE_BRACKETS = [
+    {key:'low', label:'Opptil 250 kr'},
+    {key:'high', label:'250–999 kr'}
+  ];
   var activeWineFilter = 'Alle';
   var activeGlutenOnly = false;
   var sortMode = 'newest';
@@ -2313,7 +2378,17 @@
     if (r.winePairings && r.winePairings.length){
       lines.push('');
       lines.push('Passer sammen med:');
-      r.winePairings.forEach(function(p){
+      PRICE_BRACKETS.forEach(function(bracket){
+        var entries = r.winePairings.filter(function(p){ return p.priceBracket === bracket.key; });
+        if (!entries.length) return;
+        lines.push(bracket.label + ':');
+        entries.forEach(function(p){
+          lines.push('- ' + (p.product || p.wine) + (p.note ? ' — ' + p.note : ''));
+          if (p.url) lines.push('  ' + p.url);
+        });
+      });
+      var leftoverPairings = r.winePairings.filter(function(p){ return PRICE_BRACKETS.map(function(b){ return b.key; }).indexOf(p.priceBracket) === -1; });
+      leftoverPairings.forEach(function(p){
         lines.push('- ' + (p.product || p.wine) + (p.note ? ' — ' + p.note : ''));
         if (p.url) lines.push('  ' + p.url);
       });
@@ -2471,6 +2546,9 @@
     pairWrap.style.display = pairings.length ? '' : 'none';
 
     function renderPairingEntry(p){
+      var wineInfo = WINE_TYPES.filter(function(w){ return w.key === p.type; })[0];
+      var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
+      var typeLabelHtml = wineInfo ? '<span class="pairing-type-label">' + escapeHtml(wineInfo.label) + '</span>' : '';
       var noteHtml = p.note ? '<p class="pairing-note">' + escapeHtml(p.note) + '</p>' : '';
       var productHtml = p.url ? (
         '<div class="pairing-product">' +
@@ -2478,20 +2556,18 @@
         '</div>'
       ) : '';
       return '<div class="pairing-entry">' +
-        '<div class="pairing-entry-head"><strong>' + escapeHtml(p.product || p.wine || '') + '</strong></div>' +
+        '<div class="pairing-entry-head">' + swatchHtml + typeLabelHtml + '<strong>' + escapeHtml(p.product || p.wine || '') + '</strong></div>' +
         noteHtml + productHtml +
       '</div>';
     }
 
-    var groupsHtml = PAIRING_TYPE_ORDER.map(function(typeKey){
-      var entries = pairings.filter(function(p){ return p.type === typeKey; });
+    var groupsHtml = PRICE_BRACKETS.map(function(bracket){
+      var entries = pairings.filter(function(p){ return p.priceBracket === bracket.key; });
       if (!entries.length) return '';
-      var wineInfo = WINE_TYPES.filter(function(w){ return w.key === typeKey; })[0];
-      var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
-      var headingHtml = '<h5 class="pairing-group-heading">' + swatchHtml + escapeHtml(wineInfo ? wineInfo.label : typeKey) + '</h5>';
+      var headingHtml = '<h5 class="pairing-group-heading">' + escapeHtml(bracket.label) + '</h5>';
       return '<div class="pairing-group">' + headingHtml + entries.map(renderPairingEntry).join('') + '</div>';
     }).join('');
-    var leftover = pairings.filter(function(p){ return PAIRING_TYPE_ORDER.indexOf(p.type) === -1; });
+    var leftover = pairings.filter(function(p){ return PRICE_BRACKETS.map(function(b){ return b.key; }).indexOf(p.priceBracket) === -1; });
     if (leftover.length){
       groupsHtml += '<div class="pairing-group"><h5 class="pairing-group-heading">Andre forslag</h5>' + leftover.map(renderPairingEntry).join('') + '</div>';
     }
