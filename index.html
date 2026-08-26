@@ -653,9 +653,17 @@
     margin:0 auto;
     padding:1.5rem 1.5rem 4rem;
   }
-  .back-btn{
+  .recipe-page-topbar{
     position:sticky;
     top:0.85rem;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:0.6rem;
+    flex-wrap:wrap;
+  }
+  .back-btn{
     display:inline-flex;
     align-items:center;
     gap:0.4rem;
@@ -668,9 +676,9 @@
     cursor:pointer;
     padding:0.5rem 1rem;
     box-shadow:0 4px 14px var(--shadow);
-    z-index:2;
   }
   .back-btn:hover{border-color:var(--accent-2); color:var(--accent-2);}
+  #detailShopBtn.cart-cta{box-shadow:0 4px 14px var(--shadow);}
 
   .pairing-entry{
     padding:0.85rem 0;
@@ -1026,7 +1034,10 @@
 
 <div class="recipe-page" id="detailOverlay">
   <div class="recipe-page-inner">
-    <button type="button" class="back-btn" id="detailClose">← Tilbake til oversikt</button>
+    <div class="recipe-page-topbar">
+      <button type="button" class="back-btn" id="detailClose">← Tilbake til oversikt</button>
+      <button type="button" class="btn cart-cta small" id="detailShopBtn" style="position:relative;">🛒 Handleliste<span class="cart-badge" id="cartBadgeDetail" style="display:none;"></span></button>
+    </div>
     <div class="modal-head" style="margin-top:1rem;">
       <div>
         <span class="cat-tag" id="d-category"></span>
@@ -1149,6 +1160,8 @@
   var urlBtn = document.getElementById('urlBtn');
   var shopBtn = document.getElementById('shopBtn');
   var cartBadge = document.getElementById('cartBadge');
+  var detailShopBtn = document.getElementById('detailShopBtn');
+  var cartBadgeDetail = document.getElementById('cartBadgeDetail');
   var detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
   var shoppingOverlay = document.getElementById('shoppingOverlay');
   var shoppingRecipes = document.getElementById('shoppingRecipes');
@@ -1693,10 +1706,12 @@
   }
 
   function renderCartBadge(){
-    if (!cartBadge) return;
     var n = cartRecipeIds().length;
-    cartBadge.textContent = n;
-    cartBadge.style.display = n > 0 ? 'flex' : 'none';
+    [cartBadge, cartBadgeDetail].forEach(function(el){
+      if (!el) return;
+      el.textContent = n;
+      el.style.display = n > 0 ? 'flex' : 'none';
+    });
   }
 
   detailAddToCartBtn.addEventListener('click', function(){
@@ -1800,6 +1815,7 @@
   }
 
   shopBtn.addEventListener('click', openShoppingList);
+  detailShopBtn.addEventListener('click', openShoppingList);
   shoppingClose.addEventListener('click', closeShoppingList);
   shoppingOverlay.addEventListener('click', function(e){ if (e.target === shoppingOverlay) closeShoppingList(); });
 
