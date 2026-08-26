@@ -504,20 +504,6 @@
   .image-pick-label:hover{border-color:var(--accent-2);}
   #f-image{position:absolute; width:1px; height:1px; opacity:0; overflow:hidden;}
 
-  .readonly-banner{
-    display:none;
-    align-items:center;
-    gap:0.5rem;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:0.6rem 0.9rem;
-    font-size:0.85rem;
-    color:var(--ink-muted);
-    margin-bottom:1.25rem;
-  }
-  .readonly-banner.show{display:flex;}
-
   .overlay{
     position:fixed;
     inset:0;
@@ -700,11 +686,6 @@
     <h1>René's Mat &amp; Vin</h1>
     <p>Oppskrifter, retter og viner samlet på ett sted — med notater om hva som passer sammen.</p>
   </header>
-
-  <div class="readonly-banner" id="readonlyBanner">
-    <span>👁</span>
-    <span>Skrivebeskyttet visning — endringer kan ikke lagres herfra.</span>
-  </div>
 
   <div class="toolbar">
     <div class="search">
@@ -1001,7 +982,6 @@
   var detailOverlay = document.getElementById('detailOverlay');
   var recipeForm = document.getElementById('recipeForm');
   var toastEl = document.getElementById('toast');
-  var readonlyBanner = document.getElementById('readonlyBanner');
 
   function uid(){ return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
@@ -1726,7 +1706,6 @@
 
   function setReadOnly(v){
     isReadOnly = v;
-    readonlyBanner.classList.toggle('show', v);
     addBtn.style.display = v ? 'none' : 'inline-flex';
   }
 
