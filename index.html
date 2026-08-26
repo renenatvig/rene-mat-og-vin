@@ -213,7 +213,7 @@
     .card-image{width:calc(100% + 1.7rem); margin:-0.8rem -0.85rem 0;}
     .card h3{font-size:0.94rem; min-height:2.4em;}
     .card .pairing-short{font-size:0.78rem;}
-    .difficulty-badge, .rating-badge, .cat-tag{font-size:0.66rem; padding:0.18rem 0.4rem;}
+    .difficulty-badge, .cat-tag{font-size:0.66rem; padding:0.18rem 0.4rem;}
     .toolbar{flex-direction:column; align-items:stretch;}
     .search{flex:1 1 auto;}
     .sort-select{width:100%;}
@@ -408,22 +408,6 @@
   .card .source-link a{color:var(--accent-2); text-decoration:none;}
   .card .source-link a:hover{text-decoration:underline;}
 
-  .rating-badge{
-    font-size:0.95rem;
-    line-height:1;
-    color:var(--accent-ink);
-    background:var(--accent);
-    flex-shrink:0;
-    display:inline-flex;
-    align-items:center;
-    gap:0.3rem;
-    padding:0.22rem 0.55rem;
-    border-radius:999px;
-    font-weight:700;
-    font-family:"IBM Plex Mono",monospace;
-  }
-  .rating-badge .dice-glyph{font-size:1.2rem;}
-
   .difficulty-badge{
     font-size:0.72rem;
     line-height:1;
@@ -505,48 +489,12 @@
     font-size:0.88rem;
     margin-top:0.4rem;
   }
-  .card-top-right{
-    display:flex;
-    align-items:center;
-    gap:0.4rem;
-    flex-shrink:0;
-    flex-wrap:wrap;
-    justify-content:flex-end;
-  }
   .card-meta-row{
     display:flex;
     align-items:center;
     gap:0.4rem;
     flex-wrap:wrap;
   }
-  .dice-picker{
-    display:flex;
-    gap:0.4rem;
-    flex-wrap:wrap;
-  }
-  .dice-btn{
-    font-size:1.5rem;
-    line-height:1;
-    width:2.5rem;
-    height:2.5rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:8px;
-    color:var(--ink-muted);
-    cursor:pointer;
-    transition:border-color 0.15s, color 0.15s, background 0.15s;
-  }
-  .dice-btn:hover{border-color:var(--accent-2); color:var(--ink);}
-  .dice-btn.active{
-    border-color:var(--accent);
-    color:var(--accent);
-    background:var(--surface-raised);
-  }
-  .dice-hint{font-size:0.8rem; color:var(--ink-muted); margin-top:0.4rem;}
-
   .card-image{
     width:calc(100% + 2.5rem);
     margin:-1.15rem -1.25rem 0;
@@ -786,7 +734,6 @@
     </div>
     <select class="sort-select" id="sortSelect" aria-label="Sorter">
       <option value="newest">Nyeste først</option>
-      <option value="rating">Terningkast (høyest først)</option>
       <option value="difficulty-desc">Vanskelighetsgrad (høyest først)</option>
       <option value="difficulty-asc">Vanskelighetsgrad (lavest først)</option>
       <option value="az">A–Å</option>
@@ -986,18 +933,6 @@
       <span id="d-difficulty"></span>
       <span id="d-date"></span>
     </div>
-    <div class="detail-section">
-      <h4>Terningkast</h4>
-      <div class="dice-picker" id="dicePicker">
-        <button type="button" class="dice-btn" data-val="1" aria-label="Terningkast 1">⚀</button>
-        <button type="button" class="dice-btn" data-val="2" aria-label="Terningkast 2">⚁</button>
-        <button type="button" class="dice-btn" data-val="3" aria-label="Terningkast 3">⚂</button>
-        <button type="button" class="dice-btn" data-val="4" aria-label="Terningkast 4">⚃</button>
-        <button type="button" class="dice-btn" data-val="5" aria-label="Terningkast 5">⚄</button>
-        <button type="button" class="dice-btn" data-val="6" aria-label="Terningkast 6">⚅</button>
-      </div>
-      <p class="dice-hint">Trykk igjen for å fjerne vurderingen</p>
-    </div>
     <div class="detail-section" id="d-ingredients-wrap">
       <h4 id="d-ingredients-label">Ingredienser</h4>
       <ul id="d-ingredients"></ul>
@@ -1064,8 +999,6 @@
   var dataEl = document.getElementById('recipe-data');
   var recipes = [];
   try { recipes = JSON.parse(dataEl.textContent || '[]'); } catch(e) { recipes = []; }
-
-  var DICE_FACES = {1:'⚀',2:'⚁',3:'⚂',4:'⚃',5:'⚄',6:'⚅'};
 
   function difficultyDots(n){
     return '<span class="diff-filled">' + '●'.repeat(n) + '</span>' +
@@ -1318,13 +1251,7 @@
 
   function sortRecipes(list){
     var sorted = list.slice();
-    if (sortMode === 'rating'){
-      sorted.sort(function(a,b){
-        var ar = a.rating || 0, br = b.rating || 0;
-        if (br !== ar) return br - ar;
-        return (b.dateAdded||'').localeCompare(a.dateAdded||'');
-      });
-    } else if (sortMode === 'difficulty-desc'){
+    if (sortMode === 'difficulty-desc'){
       sorted.sort(function(a,b){
         var ad = a.difficulty || 0, bd = b.difficulty || 0;
         if (bd !== ad) return bd - ad;
@@ -1377,12 +1304,11 @@
         var extraCount = allTags.length - shownTags.length;
         var tagsHtml = shownTags.map(function(t){ return '<span class="tag" title="' + escapeHtml(t) + '">' + escapeHtml(t) + '</span>'; }).join('') +
           (extraCount > 0 ? '<span class="tag tag-more">+' + extraCount + '</span>' : '');
-        var ratingHtml = r.rating ? '<span class="rating-badge" title="Terningkast ' + r.rating + '"><span class="dice-glyph">' + DICE_FACES[r.rating] + '</span>' + r.rating + '</span>' : '';
         var difficultyHtml = r.difficulty ? '<span class="difficulty-badge" title="Vanskelighetsgrad ' + r.difficulty + '/5"><span class="badge-label">Nivå:</span>' + difficultyDots(r.difficulty) + '</span>' : '';
         var wineInfo = WINE_TYPES.filter(function(w){ return w.key === r.wineType; })[0];
         var swatchHtml = wineInfo ? '<span class="wine-swatch ' + wineInfo.swatch + '"></span>' : '';
         card.innerHTML = imgHtml +
-          '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3><div class="card-top-right">' + ratingHtml + '</div></div>' +
+          '<div class="card-top"><h3>' + escapeHtml(r.title) + '</h3></div>' +
           '<div class="card-meta-row">' + difficultyHtml + '<span class="cat-tag">' + escapeHtml(r.category) + '</span></div>' +
           (r.pairing ? '<div class="pairing-short">' + swatchHtml + escapeHtml(r.pairing) + '</div>' : '') +
           '<div class="tags">' + tagsHtml + '</div>';
@@ -1715,10 +1641,6 @@
       lines.push('Passer sammen med: ' + r.pairing);
       if (r.pairingNote) lines.push(r.pairingNote);
     }
-    if (r.rating){
-      lines.push('');
-      lines.push('Terningkast: ' + r.rating + '/6');
-    }
     if (r.sourceUrl){
       lines.push('');
       lines.push('Kilde: ' + r.sourceUrl);
@@ -1761,39 +1683,6 @@
     var id = detailOverlay.dataset.id;
     var r = recipes.filter(function(x){ return x.id === id; })[0];
     if (r) shareRecipe(r);
-  });
-
-  // ---------- rating ----------
-
-  function refreshDicePicker(r){
-    document.querySelectorAll('#dicePicker .dice-btn').forEach(function(btn){
-      var v = parseInt(btn.getAttribute('data-val'), 10);
-      btn.classList.toggle('active', !!(r && r.rating === v));
-    });
-  }
-
-  function setRating(id, value){
-    var current = recipes.filter(function(x){ return x.id === id; })[0];
-    if (!current) return;
-    var newVal = (current.rating === value) ? undefined : value;
-    var next = recipes.map(function(r){
-      return r.id === id ? Object.assign({}, r, { rating: newVal }) : r;
-    });
-    persist(next, function(ok){
-      if (ok){
-        var updated = recipes.filter(function(x){ return x.id === id; })[0];
-        refreshDicePicker(updated);
-        toast(newVal ? ('Vurdert: terningkast ' + newVal) : 'Vurdering fjernet');
-      }
-    });
-  }
-
-  document.querySelectorAll('#dicePicker .dice-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var id = detailOverlay.dataset.id;
-      if (!id) return;
-      setRating(id, parseInt(btn.getAttribute('data-val'), 10));
-    });
   });
 
   // ---------- detail modal ----------
@@ -1846,7 +1735,6 @@
   function openDetail(id){
     var r = recipes.filter(function(x){ return x.id === id; })[0];
     if (!r) return;
-    refreshDicePicker(r);
     var labels = fieldLabelsFor(r.category);
     var dImg = document.getElementById('d-image');
     if (r.image){
